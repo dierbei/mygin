@@ -26,8 +26,16 @@ func (g *Goft) Mount(group string, iclasses ...IClass) *Goft {
 	return g
 }
 
-func (g *Goft) Handle(httpMethod, relativePath string, handlers ...gin.HandlerFunc) {
-	g.group.Handle(httpMethod, relativePath, handlers...)
+func (g *Goft) Handle(httpMethod, relativePath string, handler interface{}) {
+	//if h, ok := handler.(func(ctx *gin.Context) string); ok {
+	//	g.group.Handle(httpMethod, relativePath, func(ctx *gin.Context) {
+	//		ctx.String(http.StatusOK, h(ctx))
+	//	})
+	//}
+	//g.group.Handle(httpMethod, relativePath, handlers...)
+	if h := Convert(handler); h != nil {
+		g.group.Handle(httpMethod, relativePath, Convert(handler))
+	}
 }
 
 func (g *Goft) Attach(f Fairing) *Goft {
