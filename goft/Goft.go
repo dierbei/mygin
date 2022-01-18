@@ -32,7 +32,7 @@ func (g *Goft) Handle(httpMethod, relativePath string, handlers ...gin.HandlerFu
 
 func (g *Goft) Attach(f Fairing) *Goft {
 	g.Use(func(ctx *gin.Context) {
-		if err := f.OnRequest(); err != nil {
+		if err := f.OnRequest(ctx); err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 				"error": err.Error(),
 			})
