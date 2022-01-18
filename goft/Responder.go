@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	ResponderList = []Responder{new(StringResponder), new(ModelResponder)}
+	ResponderList = []Responder{new(StringResponder), new(ModelResponder), new(ModelsResponder)}
 )
 
 type Responder interface {
@@ -39,5 +39,13 @@ type ModelResponder func(ctx *gin.Context) Model
 func (r ModelResponder) RespondTo() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, r(ctx))
+	}
+}
+
+type ModelsResponder func(ctx *gin.Context) Models
+
+func (r ModelsResponder) RespondTo() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		ctx.Writer.Header().Set("Content-Type", "application/json")
 	}
 }

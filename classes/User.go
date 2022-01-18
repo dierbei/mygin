@@ -13,13 +13,19 @@ func NewUserClass() *UserClass {
 	return &UserClass{}
 }
 
-func (u *UserClass) UserList(ctx *gin.Context) string {
-	//return func(ctx *gin.Context) {
-	//	ctx.JSON(http.StatusOK, gin.H{
-	//		"result": "ok",
-	//	})
-	//}
-	return "Abc"
+func (u *UserClass) UserList(ctx *gin.Context) goft.Models {
+	users := []*models.UserModel{
+		{
+			UserId:   5207101145,
+			UserName: "Dierbei",
+		},
+		{
+			UserId:   5200000,
+			UserName: "Xiaolatiao",
+		},
+	}
+
+	return goft.MakeModels(users)
 }
 
 func (u *UserClass) UserDetail(ctx *gin.Context) goft.Model {
