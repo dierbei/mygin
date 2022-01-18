@@ -9,7 +9,13 @@ import (
 func main() {
 	r := gin.Default()
 
-	goft.Ignite().Mount(classes.NewIndexClass(), classes.NewUserClass()).Launch()
+	goft.Ignite().Mount(
+		"/v1",
+		classes.NewIndexClass(),
+	).Mount(
+		"/v2",
+		classes.NewUserClass(),
+	).Launch()
 
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
