@@ -1,6 +1,9 @@
 package goft
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
 
 type Goft struct {
 	*gin.Engine
@@ -25,4 +28,17 @@ func (g *Goft) Mount(group string, iclasses ...IClass) *Goft {
 
 func (g *Goft) Handle(httpMethod, relativePath string, handlers ...gin.HandlerFunc) {
 	g.group.Handle(httpMethod, relativePath, handlers...)
+}
+
+func (g *Goft) Attach(f Fairing) *Goft {
+	g.Use(func(ctx *gin.Context) {
+		if err := f.OnRequest(); err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
+			})
+		} else {
+			ctx.Next()
+		}
+	})
+	return g
 }

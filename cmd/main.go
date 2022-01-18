@@ -4,12 +4,15 @@ import (
 	"github.com/gin-gonic/gin"
 	"mygin/classes"
 	"mygin/goft"
+	"mygin/middleware"
 )
 
 func main() {
 	r := gin.Default()
 
-	goft.Ignite().Mount(
+	goft.Ignite().Attach(
+		middleware.NewUserMiddle(),
+	).Mount(
 		"/v1",
 		classes.NewIndexClass(),
 	).Mount(
