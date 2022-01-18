@@ -11,7 +11,9 @@ type Goft struct {
 }
 
 func Ignite() *Goft {
-	return &Goft{Engine: gin.New()}
+	g := &Goft{Engine: gin.New()}
+	g.Use(ErrorHandler())
+	return g
 }
 
 func (g *Goft) Launch() {

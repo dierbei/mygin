@@ -3,8 +3,12 @@ package models
 import "fmt"
 
 type UserModel struct {
-	UserId   int
+	UserId   int	`uri:"id" binding:"required"`
 	UserName string
+}
+
+func NewUserModel() *UserModel {
+	return &UserModel{}
 }
 
 func (m *UserModel) String() string {

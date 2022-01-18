@@ -29,13 +29,12 @@ func (u *UserClass) UserList(ctx *gin.Context) goft.Models {
 }
 
 func (u *UserClass) UserDetail(ctx *gin.Context) goft.Model {
-	return &models.UserModel{
-		UserId:   5207101145,
-		UserName: "Dierbei",
-	}
+	user := models.NewUserModel()
+	goft.Error(ctx.ShouldBindUri(user), "用户ID不正确")
+	return user
 }
 
 func (u *UserClass) Build(goft *goft.Goft) {
 	goft.Handle("GET", "/userlist", u.UserList)
-	goft.Handle("GET", "/userdetail", u.UserDetail)
+	goft.Handle("GET", "/userdetail/:id", u.UserDetail)
 }
