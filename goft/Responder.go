@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	ResponderList = []Responder{new(StringResponder)}
+	ResponderList = []Responder{new(StringResponder), new(ModelResponder)}
 )
 
 type Responder interface {
@@ -31,5 +31,13 @@ type StringResponder func(ctx *gin.Context) string
 func (r StringResponder) RespondTo() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		ctx.String(http.StatusOK, r(ctx))
+	}
+}
+
+type ModelResponder func(ctx *gin.Context) Model
+
+func (r ModelResponder) RespondTo() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, r(ctx))
 	}
 }

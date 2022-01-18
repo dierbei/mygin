@@ -34,7 +34,7 @@ func (g *Goft) Handle(httpMethod, relativePath string, handler interface{}) {
 	//}
 	//g.group.Handle(httpMethod, relativePath, handlers...)
 	if h := Convert(handler); h != nil {
-		g.group.Handle(httpMethod, relativePath, Convert(handler))
+		g.group.Handle(httpMethod, relativePath, h)
 	}
 }
 
